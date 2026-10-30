@@ -1,9 +1,14 @@
 #ifndef MINUS_H
 #define MINUS_H
 
-class MINUS {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class MINUS : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    MINUS(const string& value) : Tokens(value, TokenType::MINUS) {}
 };
 
 #endif

@@ -1,9 +1,14 @@
 #ifndef SEMICOLON_H
 #define SEMICOLON_H
 
-class SEMICOLON {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class SEMICOLON : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    SEMICOLON(const string& value) : Tokens(value, TokenType::SEMICOLON) {}
 };
 
 #endif

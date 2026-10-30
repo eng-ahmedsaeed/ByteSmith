@@ -1,9 +1,13 @@
 #ifndef EQUAL_H
 #define EQUAL_H
 
-class EQUAL {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+class EQUAL : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    EQUAL(const string& value) : Tokens(value, TokenType::EQUAL) {}
 };
 
 #endif

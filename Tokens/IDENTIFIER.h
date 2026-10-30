@@ -1,9 +1,13 @@
 #ifndef IDENTIFIER_H
 #define IDENTIFIER_H
 
-class IDENTIFIER {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+class IDENTIFIER : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    IDENTIFIER(const string& value) : Tokens(value, TokenType::IDENTIFIER) {}
 };
 
 #endif

@@ -1,9 +1,13 @@
 #ifndef END_H
 #define END_H
 
-class END {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+class END : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    END(const string& value) : Tokens(value, TokenType::END) {}
 };
 
 #endif

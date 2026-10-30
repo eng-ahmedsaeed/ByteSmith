@@ -1,9 +1,14 @@
 #ifndef WRITE_H
 #define WRITE_H
 
-class WRITE {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class WRITE : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    WRITE(const string& value) : Tokens(value, TokenType::WRITE) {}
 };
 
 #endif

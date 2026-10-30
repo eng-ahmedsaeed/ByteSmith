@@ -1,9 +1,12 @@
 #ifndef DIV_H
 #define DIV_H
+#include "Tokens.h"
 
-class DIV {
+using namespace std;
+using namespace TokenLibrary;
+class DIV : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    DIV(const string& value) : Tokens(value, TokenType::DIV) {}
 };
 
 #endif

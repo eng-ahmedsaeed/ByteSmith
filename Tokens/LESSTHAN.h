@@ -1,9 +1,14 @@
 #ifndef LESSTHAN_H
 #define LESSTHAN_H
 
-class LESSTHAN {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class LESSTHAN : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    LESSTHAN(const string& value) : Tokens(value, TokenType::LESSTHAN) {}
 };
 
 #endif

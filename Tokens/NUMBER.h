@@ -1,9 +1,14 @@
 #ifndef NUMBER_H
 #define NUMBER_H
 
-class NUMBER {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class NUMBER : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    NUMBER(const string& value) : Tokens(value, TokenType::NUMBER) {}
 };
 
 #endif

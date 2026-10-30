@@ -1,9 +1,14 @@
 #ifndef THEN_H
 #define THEN_H
 
-class THEN {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class THEN : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    THEN(const string& value) : Tokens(value, TokenType::THEN) {}
 };
 
 #endif

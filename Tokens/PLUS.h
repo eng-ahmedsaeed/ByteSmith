@@ -1,9 +1,14 @@
 #ifndef PLUS_H
 #define PLUS_H
 
-class PLUS {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class PLUS : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    PLUS(const string& value) : Tokens(value, TokenType::PLUS) {}
 };
 
 #endif

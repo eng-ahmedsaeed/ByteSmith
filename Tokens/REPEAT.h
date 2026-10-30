@@ -1,9 +1,14 @@
 #ifndef REPEAT_H
 #define REPEAT_H
 
-class REPEAT {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class REPEAT : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    REPEAT(const string& value) : Tokens(value, TokenType::REPEAT) {}
 };
 
 #endif
