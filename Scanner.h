@@ -2,32 +2,48 @@
 #define SCANNER_H
 
 #include <queue>
-#include "Token.h"
-#include "String"
+#include <fstream>
+#include <string>
+#include "Tokens/Token.h"
+#include "Tokens/Tokens.h"
+#include <bits/basic_string.h>
+using TokenLibrary::TokenType;
 using namespace std;
+
 class Scanner {
 public:
-    queue<Token> tokens;
-    ifstream file ;
-    string state; 
-        // Constructor
-    Token( ifstream file ) {
-        this->file = file 
-    }
+    queue<Tokens> tokens;
+    ifstream file;
+     TokenType state;
 
-    void Toknize (ifstream file)
+    // Constructor
+    Scanner(ifstream& file) : file(file) {}
+
+    void Toknize(ifstream& file)
     {
+        state =START;
         char c;
+        string st;
         while (file.get(c))
         {
-                switch (state)
-                {
-                    case 
-                }
+            switch(state){
+                case START:break;
+                if(c == '{')
+                state=INCOMMENT;
+                else if(c == ':')
+                state = INASIGN;
+                case INCOMMENT:break;
+                case INNUM:break;
+                case INID:break;
+                case INASSIGN:break;
+                case DONE:
+                Tokens token ;
+                token.setTokenValue(st);
+                 tokens.push(token);
+                break;
 
-
+            }
         }
-
     }
 };
 
