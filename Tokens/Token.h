@@ -1,16 +1,28 @@
-#ifndef TOKEN_H
-#define TOKEN_H
+#ifndef TOKEN_TYPE_H
+#define TOKEN_TYPE_H
 
-#include <string>
+namespace TokenLibrary {
 
-class Token {
-public:
-    static std::string TokenType;
-    std::string TokenValue;
+    enum class TokenType {
+        IF,
+        LESSTHAN,
+        MINUS,
+        MULT,
+        NUMBER,
+        OPENBRACKET,
+        PLUS,
+        READ,
+        REPEAT,
+        SEMICOLON,
+        THEN,
+        UNTIL,
+        WRITE,
+        DIV,
+        END,
+        EQUAL,
+        IDENTIFIER
+    };
 
-    void setTokenValue(const std::string& tokenValue);
-    std::string getTokenValue() const;
-    static std::string getTokenType();
-};
+}
 
 #endif
