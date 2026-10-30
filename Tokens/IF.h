@@ -1,9 +1,14 @@
 #ifndef IF_H
 #define IF_H
 
-class IF {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class IF : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    IF(const string& value) : Tokens(value, TokenType::IF) {}
 };
 
 #endif

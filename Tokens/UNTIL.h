@@ -1,9 +1,14 @@
 #ifndef UNTIL_H
 #define UNTIL_H
 
-class UNTIL {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class UNTIL : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    UNTIL(const string& value) : Tokens(value, TokenType::UNTIL) {}
 };
 
 #endif

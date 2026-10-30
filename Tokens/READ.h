@@ -1,9 +1,14 @@
 #ifndef READ_H
 #define READ_H
 
-class READ {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class READ : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    READ(const string& value) : Tokens(value, TokenType::READ) {}
 };
 
 #endif

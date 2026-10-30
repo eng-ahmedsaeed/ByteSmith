@@ -1,9 +1,14 @@
 #ifndef OPENBRACKET_H
 #define OPENBRACKET_H
 
-class OPENBRACKET {
+#include "Tokens.h"
+
+using namespace std;
+using namespace TokenLibrary;
+
+class OPENBRACKET : public Tokens {
 public:
-    // The original Java class is empty; add members as needed.
+    OPENBRACKET(const string& value) : Tokens(value, TokenType::OPENBRACKET) {}
 };
 
 #endif
