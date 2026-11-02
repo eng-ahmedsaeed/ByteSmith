@@ -11,7 +11,7 @@ int main() {
         return 1;
     }
     if (!outfile.is_open()) {
-        std::cout << "Error opening infile!" << std::endl;
+        std::cout << "Error opening outfile!" << std::endl;
         return 1;
     }
 

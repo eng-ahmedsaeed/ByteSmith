@@ -2,11 +2,10 @@
 #define SCANNER_H
 #include <algorithm>
 #include <cctype>
-#include <string>
+#include <iostream>
 #include <queue>
 #include <fstream>
 #include <string>
-#include <bits/basic_string.h>
 #include "States.h"
 #include "Common.h"
 using TokenLibrary::TokenType;
@@ -104,8 +103,32 @@ private:
             Tokens token = temp.front();
             temp.pop();
 
-            outfile << token.tokenValue << "," << tokenTypeToString(token.tokenType)+"\n";   
+            outfile << token.tokenValue << " , " << tokenTypeToString(token.tokenType) << '\n';
         }
+    }
+
+private:
+    void addIdentifierToken(const string& identifier)
+    {
+        string keyword = toLowerCase(identifier);
+        if (keyword == "if")
+            tokens.push(IF(identifier));
+        else if (keyword == "then")
+            tokens.push(THEN(identifier));
+        else if (keyword == "end")
+            tokens.push(END(identifier));
+        else if (keyword == "repeat")
+            tokens.push(REPEAT(identifier));
+        else if (keyword == "until")
+            tokens.push(UNTIL(identifier));
+        else if (keyword == "read")
+            tokens.push(READ(identifier));
+        else if (keyword == "write")
+            tokens.push(WRITE(identifier));
+        else if (keyword == "else")
+            tokens.push(ELSE(identifier));
+        else
+            tokens.push(IDENTIFIER(identifier));
     }
 
 private:
@@ -114,183 +137,145 @@ private:
         state = STATE::START;
         char c;
         string st;
-        while (infile.get(c))
-
+        while (true)
         {
+            if (state == STATE::DONE)
+            {
+                const Tokens& token = tokens.back();
+                cout << "Scanner identified token: " << token.tokenValue
+                     << ", type: " << tokenTypeToString(token.tokenType) << '\n';
+                state = STATE::START;
+                continue;
+            }
+
+            if (!infile.get(c))
+            {
+                if (state == STATE::INNUM)
+                {
+                    tokens.push(NUMBER(st));
+                    st.clear();
+                    state = STATE::DONE;
+                    continue;
+                }
+                if (state == STATE::INID)
+                {
+                    addIdentifierToken(st);
+                    st.clear();
+                    state = STATE::DONE;
+                    continue;
+                }
+                break;
+            }
+
             switch (state)
             {
-                //! Start
             case STATE::START:
                 if (c == '{')
                     state = STATE::INCOMMENT;
                 else if (c == ':')
                     state = STATE::INASSIGN;
-                else if (c == ' ')
-                    state = STATE::START;
-                else if (isdigit(c))
+                else if (isspace(static_cast<unsigned char>(c)))
+                    break;
+                else if (isdigit(static_cast<unsigned char>(c)))
+                {
+                    st = c;
                     state = STATE::INNUM;
-                else if (isalpha(c))
+                }
+                else if (isalpha(static_cast<unsigned char>(c)))
                 {
                     state = STATE::INID;
-                    st += c;
+                    st = c;
                 }
                 else if (c == ';')
                 {
-                    SEMICOLON token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(SEMICOLON(string(1, c)));
                     state = STATE::DONE;
                 }
                 else if (c == '<')
                 {
-                    LESSTHAN token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(LESSTHAN(string(1, c)));
                     state = STATE::DONE;
                 }
                 else if (c == '=')
                 {
-                    EQUAL token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(EQUAL(string(1, c)));
                     state = STATE::DONE;
                 }
                 else if (c == '+')
                 {
-                    PLUS token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(PLUS(string(1, c)));
                     state = STATE::DONE;
                 }
-
+                else if (c == '-')
+                {
+                    tokens.push(MINUS(string(1, c)));
+                    state = STATE::DONE;
+                }
                 else if (c == '*')
                 {
-                    MULT token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(MULT(string(1, c)));
                     state = STATE::DONE;
                 }
-
                 else if (c == '/')
                 {
-                    DIV token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(DIV(string(1, c)));
                     state = STATE::DONE;
                 }
-
                 else if (c == '(')
                 {
-                    OPENBRACKET token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(OPENBRACKET(string(1, c)));
                     state = STATE::DONE;
                 }
-
                 else if (c == ')')
                 {
-                    CLOSEDBRACKET token(string(1, c));
-                    tokens.push(token);
+                    tokens.push(CLOSEDBRACKET(string(1, c)));
                     state = STATE::DONE;
                 }
                 break;
-            //! INCOMMENT
             case STATE::INCOMMENT:
                 if (c == '}')
                     state = STATE::START;
-                else
-                    state = STATE::INCOMMENT;
                 break;
-
-                //! INNUM state
             case STATE::INNUM:
-                if (isdigit(c))
-                {
+                if (isdigit(static_cast<unsigned char>(c)))
                     st += c;
-                    state = STATE::INNUM;
-                }
                 else
                 {
-                    NUMBER token(st);
-                    tokens.push(token);
+                    tokens.push(NUMBER(st));
+                    st.clear();
+                    infile.unget();
                     state = STATE::DONE;
                 }
-
                 break;
-
-                //! INID
-
             case STATE::INID:
-                if (isalpha(c))
-                {
+                if (isalpha(static_cast<unsigned char>(c)))
                     st += c;
-                    state = STATE::INID;
-                }
                 else
                 {
+                    addIdentifierToken(st);
+                    st.clear();
+                    infile.unget();
                     state = STATE::DONE;
-                    string keyword = toLowerCase(st);
-                    if (keyword == "if")
-                    {
-                        IF token(st);
-                        tokens.push(token);
-                    }
-                    else if (keyword == "then")
-                    {
-                        THEN token(st);
-                        tokens.push(token);
-                    }
-                    else if (keyword == "end")
-                    {
-                        END token(st);
-                        tokens.push(token);
-                    }
-                    else if (keyword == "repeat")
-                    {
-                        REPEAT token(st);
-                        tokens.push(token);
-                    }
-                    else if (keyword == "until")
-                    {
-                        UNTIL token(st);
-                        tokens.push(token);
-                    }
-                    else if (keyword == "read")
-                    {
-                        READ token(st);
-                        tokens.push(token);
-                    }
-                    else if (keyword == "write")
-                    {
-                        WRITE token(st);
-                        tokens.push(token);
-                    }
-                    else if (keyword == "else")
-                    {
-                        ELSE token(st);
-                        tokens.push(token);
-                    }
-
-                    else
-                    {
-                        IDENTIFIER token(st);
-                        tokens.push(token);
-                    }
                 }
-
                 break;
-
-                //! INASSIGN
             case STATE::INASSIGN:
                 if (c == '=')
                 {
-                    ASSIGN token(":=");
-                    tokens.push(token);
+                    tokens.push(ASSIGN(":="));
                     state = STATE::DONE;
                 }
                 else
                 {
+                    infile.unget();
                     state = STATE::DONE;
                 }
                 break;
             case STATE::DONE:
-                printf("Scanner detected token of =%s", tokens.front().tokenType);
-                printf("Scanner detected token=%s", tokens.front().tokenValue);
-                state = STATE::START;
-                st = "";
+            infile.unget();
+            cout<<"=================================================="<<endl;
+            cout<<"The scanner had identified a token  [ token type:  = "<<tokenTypeToString(tokens.front().tokenType)<<" token value: "<<tokens.front().tokenValue<<" ]"<<endl;
+            
+
                 break;
             }
         }

@@ -9,24 +9,22 @@ using namespace TokenLibrary;
 
 class Tokens {
 public:
-    static TokenType tokenType;
-    static string tokenValue;
+    TokenType tokenType;
+    string tokenValue;
 
-    Tokens(string value, TokenType type) {
-        tokenType = type;
+    Tokens(const string& value, TokenType type) : tokenType(type), tokenValue(value) {}
+
+    Tokens() : tokenType(TokenType::IDENTIFIER) {}
+
+    void setTokenValue(const std::string& value) {
         tokenValue = value;
     }
 
-    Tokens() {
-
-    }
-    void setTokenValue(const std::string& tokenValue) {
-        Tokens::tokenValue = tokenValue;
-    }
-    string getTokenValue() {
+    string getTokenValue() const {
         return tokenValue;
     }
-    static TokenType getTokenType() {
+
+    TokenType getTokenType() const {
         return tokenType;
     }
 };
