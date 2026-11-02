@@ -1,15 +1,21 @@
 #include <fstream>
 #include <iostream>
-#include "Tokens/Scanner.h"
+#include "Scanner.h"
 
 int main() {
-    std::ifstream file("input.txt");
+    std::ifstream infile("input.txt");
+    std ::ofstream outfile("output.txt");
 
-    if (!file.is_open()) {
-        std::cout << "Error opening file!" << std::endl;
+    if (!infile.is_open()) {
+        std::cout << "Error opening infile!" << std::endl;
+        return 1;
+    }
+    if (!outfile.is_open()) {
+        std::cout << "Error opening infile!" << std::endl;
         return 1;
     }
 
-    Scanner scn(file);
+    Scanner scn(infile, outfile);
+
     return 0;
 }

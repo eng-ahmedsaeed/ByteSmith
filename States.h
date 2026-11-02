@@ -3,7 +3,7 @@
 
 namespace STATES {
 
-    enum class STATES {
+    enum class STATE {
         START,
         INCOMMENT,
         INNUM,

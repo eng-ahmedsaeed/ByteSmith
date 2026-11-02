@@ -1,0 +1,24 @@
+#ifndef COMMON_H
+#define COMMON_H
+#include <Tokens/DIV.h>
+#include <Tokens/END.h>
+#include <Tokens/EQUAL.h>
+#include <Tokens/IDENTIFIER.h>
+#include <Tokens/IF.h>
+#include <Tokens/LESSTHAN.h>
+#include <Tokens/MINUS.h>
+#include <Tokens/MULT.h>
+#include <Tokens/NUMBER.h>
+#include <Tokens/OPENBRACKET.h>
+#include <Tokens/PLUS.h>
+#include <Tokens/READ.h>
+#include <Tokens/REPEAT.h>
+#include <Tokens/SEMICOLON.h>
+#include <Tokens/THEN.h>
+#include <Tokens/Token.h>
+#include <Tokens/UNTIL.h>
+#include <Tokens/WRITE.h>
+#include <Tokens/CLOSEDBRACKET.h>
+#include <Tokens/ASSIGN.h>
+#include <Tokens/ELSE.h>
+#endif

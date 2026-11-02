@@ -10,6 +10,8 @@ namespace TokenLibrary {
         MULT,
         NUMBER,
         OPENBRACKET,
+        CLOSEDBRACKET,
+        ASSIGN,
         PLUS,
         READ,
         REPEAT,
@@ -20,6 +22,7 @@ namespace TokenLibrary {
         DIV,
         END,
         EQUAL,
+        ELSE,
         IDENTIFIER
     };
 

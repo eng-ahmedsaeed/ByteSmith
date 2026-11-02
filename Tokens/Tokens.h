@@ -16,6 +16,10 @@ public:
         tokenType = type;
         tokenValue = value;
     }
+
+    Tokens() {
+
+    }
     void setTokenValue(const std::string& tokenValue) {
         Tokens::tokenValue = tokenValue;
     }
