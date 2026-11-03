@@ -1,7 +1,7 @@
 read , READ
 x , IDENTIFIER
 ; , SEMICOLON
-if , IF
+If , IF
 0 , NUMBER
 < , LESSTHAN
 x , IDENTIFIER
