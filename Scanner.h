@@ -19,20 +19,14 @@ public:
     ifstream &infile;
     ofstream &outfile;
     STATE state;
-    bool hasError;
 
     // Constructor
-    Scanner(ifstream &infile, ofstream &outfile) : infile(infile), outfile(outfile), hasError(false) {
+    Scanner(ifstream &infile, ofstream &outfile) : infile(infile), outfile(outfile) {
         Tokenize();
         TokenizeExport();
     }
 
 public:
-    bool encounteredError() const
-    {
-        return hasError;
-    }
-
     Tokens getToken()
     {
         return tokens.back();
@@ -111,21 +105,12 @@ private:
 
             outfile << token.tokenValue << " , " << tokenTypeToString(token.tokenType) << '\n';
         }
-
-        if (hasError)
-            outfile << "Error: undefined\nWrong syntax\n";
     }
 
 private:
-    bool addIdentifierToken(const string& identifier)
+    void addIdentifierToken(const string& identifier)
     {
         string keyword = toLowerCase(identifier);
-        if (identifier != keyword)
-        {
-            hasError = true;
-            return false;
-        }
-
         if (keyword == "if")
             tokens.push(IF(identifier));
         else if (keyword == "then")
@@ -144,8 +129,6 @@ private:
             tokens.push(ELSE(identifier));
         else
             tokens.push(IDENTIFIER(identifier));
-
-        return true;
     }
 
 private:
@@ -156,14 +139,14 @@ private:
         string st;
         while (true)
         {
-            // if (state == STATE::DONE)
-            // {
-            //     const Tokens& token = tokens.back();
-            //     cout << "Scanner identified token: " << token.tokenValue
-            //          << ", type: " << tokenTypeToString(token.tokenType) << '\n';
-            //     state = STATE::START;
-            //     continue;
-            // }
+            if (state == STATE::DONE)
+            {
+                const Tokens& token = tokens.back();
+                cout << "Scanner identified token: " << token.tokenValue
+                     << ", type: " << tokenTypeToString(token.tokenType) << '\n';
+                state = STATE::START;
+                continue;
+            }
 
             if (!infile.get(c))
             {
@@ -176,8 +159,7 @@ private:
                 }
                 if (state == STATE::INID)
                 {
-                    if (!addIdentifierToken(st))
-                        return;
+                    addIdentifierToken(st);
                     st.clear();
                     state = STATE::DONE;
                     continue;
@@ -249,8 +231,6 @@ private:
                     tokens.push(CLOSEDBRACKET(string(1, c)));
                     state = STATE::DONE;
                 }
-
-            
                 break;
             case STATE::INCOMMENT:
                 if (c == '}')
@@ -272,8 +252,7 @@ private:
                     st += c;
                 else
                 {
-                    if (!addIdentifierToken(st))
-                        return;
+                    addIdentifierToken(st);
                     st.clear();
                     infile.unget();
                     state = STATE::DONE;
@@ -294,9 +273,9 @@ private:
             case STATE::DONE:
             infile.unget();
             cout<<"=================================================="<<endl;
-            cout<<"The scanner had identified a token  [ token type:  = "<<tokenTypeToString(tokens.back().tokenType)<<" token value: "<<tokens.back().tokenValue<<" ]"<<endl;
+            cout<<"The scanner had identified a token  [ token type:  = "<<tokenTypeToString(tokens.front().tokenType)<<" token value: "<<tokens.front().tokenValue<<" ]"<<endl;
             
-                    state= STATE::START;
+
                 break;
             }
         }

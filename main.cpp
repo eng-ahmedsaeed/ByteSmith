@@ -17,5 +17,5 @@ int main() {
 
     Scanner scn(infile, outfile);
 
-    return scn.encounteredError() ? 1 : 0;
+    return 0;
 }
